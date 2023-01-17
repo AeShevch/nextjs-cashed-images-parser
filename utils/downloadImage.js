@@ -1,5 +1,5 @@
 import fs from "fs";
-import {api} from "../app.js";
+import { api } from "../app.js";
 
 /**
  * @param {string} url
@@ -12,15 +12,17 @@ export async function downloadImage(url, filepath) {
   return new Promise((resolve, reject) => {
     api({
       url,
-      method: 'GET',
-      responseType: 'stream'
+      method: `GET`,
+      responseType: `stream`,
     })
       .then((response) => {
-        fs.mkdirSync(resultPath, {recursive: true});
+        fs.mkdirSync(resultPath, { recursive: true });
 
-        response.data.pipe(fs.createWriteStream(`${resultPath}/${filename}`))
-          .on('error', reject)
-          .once('close', () => resolve(filepath));
+        // response.
+        response.data
+          .pipe(fs.createWriteStream(`${resultPath}/${filename}`))
+          .on(`error`, reject)
+          .once(`close`, () => resolve(filepath));
       })
       .catch(reject);
   });

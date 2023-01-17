@@ -1,23 +1,11 @@
-import {Parser} from "./utils/parser.js";
-import imagesSrcList from "./data/b2b.js";
+import { Parser } from "./utils/parser.js";
+import images from "./data/iport.js";
 
-import {ConcurrencyManager} from "axios-concurrency";
 import axios from "axios";
+import { BASE_URL, CDN_URL } from "./const.js";
 
-export const api = axios.create({
-  baseURL: `https://b2b-shop.nbcomgroup.ru`,
-  // baseURL: `https://www.iport.ru`,
-  // baseURL: `https://www.nbcomputers.ru`
-});
+export const api = axios.create({ baseURL: BASE_URL.IPORT });
 
-const MAX_CONCURRENT_REQUESTS = 5;
+const parser = new Parser(CDN_URL.IPORT);
+await parser.getImages(images);
 
-const manager = ConcurrencyManager(api, MAX_CONCURRENT_REQUESTS);
-
-ConcurrencyManager(api, MAX_CONCURRENT_REQUESTS);
-
-const parser = new Parser( `https://cdn.nbcomgroup.ru`);
-
-await parser.getImages(imagesSrcList);
-
-manager.detach();
