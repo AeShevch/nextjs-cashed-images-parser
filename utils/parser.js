@@ -43,8 +43,10 @@ export class Parser {
 
             succeed++;
           })
-          .catch(({ response }) => {
-            this.#printErrorLog(response, cdnImgPath);
+          .catch((err) => {
+            if (err.response) {
+              this.#printErrorLog(err.response, cdnImgPath);
+            } else console.log(err);
 
             failed++;
           })
